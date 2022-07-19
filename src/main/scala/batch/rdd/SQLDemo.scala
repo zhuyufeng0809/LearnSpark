@@ -22,9 +22,9 @@ object SQLDemo {
 
     spark.read
       .json(jsonFile)
-      .createOrReplaceTempView("people")
+      .createGlobalTempView("people")
 
-    spark.sql("select * from people where age > 20").show()
+    spark.sql("select * from global_temp.people where age > 20").show()
 
     spark.close() // 效果等同于 spark.stop()
   }
