@@ -1,4 +1,4 @@
-package batch.rdd
+package batch
 
 import org.apache.spark.storage.StorageLevel
 import org.apache.spark.{SparkConf, SparkContext, TaskContext}

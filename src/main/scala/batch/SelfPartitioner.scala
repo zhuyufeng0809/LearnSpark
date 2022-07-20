@@ -1,4 +1,4 @@
-package batch.rdd
+package batch
 
 import org.apache.spark.Partitioner
 
