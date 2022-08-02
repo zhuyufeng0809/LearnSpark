@@ -1,13 +1,13 @@
 package batch
 
-import org.apache.spark.sql.SparkSession
+import org.apache.spark.sql.{SaveMode, SparkSession}
 
 import java.util.Properties
 
 object Mysql {
   def main(args: Array[String]): Unit = {
     val url =
-      "jdbc:mysql://:3306/airflow"
+      "jdbc:mysql://XXX:3306/dev_ambari_his"
     val spark = SparkSession
       .builder()
       .appName("spark mysql")
@@ -21,10 +21,26 @@ object Mysql {
       .option("password", "")
       .option("pushDownLimit", "true")
       .load()
-    dataDF.createOrReplaceTempView("mysql_table_1")
-    spark
-      .sql("select * from mysql_table where task_key >= 1 limit 20")
-      .show()
+    dataDF.createOrReplaceTempView("mysql_table")
+    val source = spark
+      .sql("select * from mysql_table")
+
+    val connectionProperties = new Properties()
+    connectionProperties.put("user", "")
+    connectionProperties.put("password", "")
+
+    source.write
+      .mode(SaveMode.Append)
+      .jdbc(url, "yfzhu_test_2", connectionProperties)
+
+    source.write
+      .mode(SaveMode.Append)
+      .format("jdbc")
+      .option("url", url)
+      .option("dbtable", "dev_ambari_his.yfzhu_test_2")
+      .option("user", "")
+      .option("password", "")
+      .save()
 
     spark.close()
   }
