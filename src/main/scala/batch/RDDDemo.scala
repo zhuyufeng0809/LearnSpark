@@ -17,8 +17,8 @@ object RDDDemo {
     val sc = new SparkContext(conf)
     val list =
       List("beijing", "beijing", "beijing", "shanghai", "shanghai", "tianjin")
-    val rdd = sc.parallelize(list)
-    rdd.map((_, 1)).reduceByKey(_ + _).collect().foreach(println(_))
+    val rdd = sc.parallelize(list, 10)
+    rdd.map((_, 1)).reduceByKey(_ + _).collect().foreach(println)
 
     sc.stop()
   }
