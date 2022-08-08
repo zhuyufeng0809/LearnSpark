@@ -9,10 +9,8 @@ object DatasetTest {
       .master("local")
       .config("truncate", "false")
       .getOrCreate()
-    val ds_json = spark.read.json(
-      "/Users/zhuyufeng/IdeaProjects/LearnSpark/src/main/resources/people.json"
-    )
-    ds_json.printSchema()
-    ds_json.show()
+    import spark.implicits._
+    val primitiveDS = Seq(1, 2, 3).toDS()
+    println(primitiveDS.map(_ + 1).collect().mkString("Array(", ", ", ")"))
   }
 }

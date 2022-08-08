@@ -16,6 +16,7 @@ object DataFrameTest {
       .config("truncate", "false")
       .getOrCreate()
     val df_text = spark.read.text("your_file_path/kv1.txt")
+
     val df_csv = spark.read
       .format("csv")
       .option("sep", ";")
