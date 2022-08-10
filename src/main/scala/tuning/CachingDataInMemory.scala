@@ -10,7 +10,5 @@ object CachingDataInMemory {
       .config("truncate", "false")
       .getOrCreate()
 
-    spark.catalog.cacheTable("")
-
   }
 }
