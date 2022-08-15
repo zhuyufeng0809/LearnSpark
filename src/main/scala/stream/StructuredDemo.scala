@@ -1,6 +1,7 @@
 package stream
 
 import org.apache.spark.sql.SparkSession
+import org.apache.spark.sql.functions.window
 
 object StructuredDemo {
   def main(args: Array[String]): Unit = {
@@ -18,8 +19,15 @@ object StructuredDemo {
       .load()
 
     val words = lines.as[String].flatMap(_.split(" "))
-    val wordCounts = words.groupBy("value").count()
 
+    words.groupBy(
+      window($"", "", ""),
+      $""
+    )
+    val wordCounts = words
+      .withWatermark("", "")
+      .groupBy("value")
+      .count()
     val query = wordCounts.writeStream
       .outputMode("complete")
       .format("console")
